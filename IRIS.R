@@ -1,3 +1,0 @@
-library('caret')
-
-data <- iris
