@@ -15,18 +15,37 @@ main <- function(){
   train <- data_norm[rows,]
   test <- data_norm[-rows,]
   
-  cm <- model_logistic(train,test)
-  print('1')
+  #Create Models & make predictions on test dataset
+  model_logistic <- model(train,'Logistic Regression')
+  cm_logistic <- prediction(model_logistic,test)
+  
+  model_svm <- model(train,'SVM')
+  cm_svm <- prediction(model_svm,test)
+  
+  #Print confusion matrix for all models
+  print(as.matrix(cm_logistic))
+  print(as.matrix(cm_svm))
+  
 }
 
 
-model_logistic <- function (train,test){
+model <- function (train,model_name){
   
+  if (model_name == 'Logistic Regression')
+    model <- multinom(Species ~., train)
   
-  #Logistic Regression
-  model <- multinom(Species ~., train)
-  Predicted_Species <- predict(model,test, type = 'class')
-  cm <- confusionMatrix(Predicted_Species,test$Species)
+  else if (model_name == 'SVM')
+    model <- svm(Species ~ ., train)
+    
+  return(model)
+  
+}
+
+
+prediction <- function(model,test){
+  
+  predictedValues <- predict(model,test, type = 'class')
+  cm <- confusionMatrix(predictedValues,test$Species)
   return(cm)
 }
 
