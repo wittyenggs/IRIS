@@ -15,17 +15,17 @@ main <- function(){
   train <- data_norm[rows,]
   test <- data_norm[-rows,]
   
-  #Create Models & make predictions on test dataset
-  model_logistic <- model(train,'Logistic Regression')
-  cm_logistic <- prediction(model_logistic,test)
+  #Enlist Models
+  models <- c('Logistic Regression', 'SVM')
   
-  model_svm <- model(train,'SVM')
-  cm_svm <- prediction(model_svm,test)
-  
-  #Print confusion matrix for all models
-  print(as.matrix(cm_logistic))
-  print(as.matrix(cm_svm))
-  
+  #Create Models, make predictions on test dataset and display confusion matrix
+  for (model_name in models){
+    model <- model(train,model_name)
+    cm <- prediction(model,test)  
+    print(paste("confusion matrix for ", model_name)) 
+    print (as.matrix(cm))
+    
+  }
 }
 
 
