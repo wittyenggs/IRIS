@@ -22,8 +22,9 @@ main <- function(){
   for (model_name in models){
     model <- model(train,model_name)
     cm <- prediction(model,test)  
-    print(paste("confusion matrix for ", model_name)) 
+    print(paste("confusion matrix for", model_name)) 
     print (as.matrix(cm))
+    
     
   }
 }
